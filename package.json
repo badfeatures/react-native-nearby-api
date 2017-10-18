@@ -1,0 +1,21 @@
+
+{
+  "name": "react-native-nearby-api",
+  "version": "0.0.1",
+  "description": "React Native wrapper around Google's Nearby API SDK",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "react-native",
+    "google",
+    "nearby",
+    "messages"
+  ],
+  "author": "Bad Features, Inc",
+  "license": "",
+  "peerDependencies": {
+    "react-native": "^0.41.2"
+  }
+}
