@@ -1,5 +1,5 @@
 
-package com.reactlibrary;
+package com.badfeatures.nearby;
 
 import java.util.Arrays;
 import java.util.Collections;

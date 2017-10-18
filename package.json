@@ -11,7 +11,9 @@
     "react-native",
     "google",
     "nearby",
-    "messages"
+    "messages",
+    "android",
+    "ios"
   ],
   "author": "Bad Features, Inc",
   "license": "",
