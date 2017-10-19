@@ -4,9 +4,11 @@ package com.badfeatures.nearby;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
 import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -28,7 +30,7 @@ import com.google.android.gms.nearby.messages.Strategy;
 import com.google.android.gms.nearby.messages.SubscribeCallback;
 import com.google.android.gms.nearby.messages.SubscribeOptions;
 
-public class RNNearbyApiModule extends ReactContextBaseJavaModule implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class RNNearbyApiModule extends ReactContextBaseJavaModule implements LifecycleEventListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private enum RNNearbyApiEvent {
         CONNECTED("CONNECTED"),
@@ -106,7 +108,6 @@ public class RNNearbyApiModule extends ReactContextBaseJavaModule implements Goo
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
                     .build();
-            _googleAPIClient.connect();
         }
         return _googleAPIClient;
     }
@@ -219,8 +220,32 @@ public class RNNearbyApiModule extends ReactContextBaseJavaModule implements Goo
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Log.e(getName(), RNNearbyApiEvent.CONNECTION_FAILED.toString() + connectionResult.getErrorMessage());
+        Log.e(getName(), RNNearbyApiEvent.CONNECTION_FAILED.toString() + " " + connectionResult.toString());
         emitEvent(RNNearbyApiEvent.CONNECTION_FAILED, "Google Client connection failed: " + connectionResult.getErrorMessage());
+    }
+
+    @Override
+    public void onHostResume() {
+        Log.i(getName(), "onHostResume");
+        GoogleApiClient client = getGoogleAPIInstance();
+        client.connect();
+    }
+
+    @Override
+    public void onHostPause() {
+        Log.i(getName(), "onHostPause");
+    }
+
+    @Override
+    public void onHostDestroy() {
+        Log.i(getName(), "onHostDestroy");
+        unpublish();
+        unsubscribe();
+
+        GoogleApiClient client = getGoogleAPIInstance();
+        if (client.isConnected()) {
+            client.disconnect();
+        }
     }
 
     private void emitEvent(RNNearbyApiEvent event, Message message) {

@@ -9,15 +9,15 @@ const { RNNearbyApi } = NativeModules
 /**
  * Event Constants 
  */
-const CONNECTED = "CONNECTED"
-const CONNECTION_SUSPENDED = "CONNECTION_SUSPENDED"
-const CONNECTION_FAILED = "CONNECTION_FAILED"
-const MESSAGE_FOUND = "MESSAGE_FOUND"
-const MESSAGE_LOST = "MESSAGE_LOST"
-const DISTANCE_CHANGED = "DISTANCE_CHANGED"
-const BLE_SIGNAL_CHANGED = "BLE_SIGNAL_CHANGED"
+export const CONNECTED = "CONNECTED"
+export const CONNECTION_SUSPENDED = "CONNECTION_SUSPENDED"
+export const CONNECTION_FAILED = "CONNECTION_FAILED"
+export const MESSAGE_FOUND = "MESSAGE_FOUND"
+export const MESSAGE_LOST = "MESSAGE_LOST"
+export const DISTANCE_CHANGED = "DISTANCE_CHANGED"
+export const BLE_SIGNAL_CHANGED = "BLE_SIGNAL_CHANGED"
 
-class NearbyAPI {
+export class NearbyAPI {
 
     constructor() {
         this._nearbyAPI = RNNearbyApi
@@ -37,6 +37,14 @@ class NearbyAPI {
 
     subscribe = () => {
         this._nearbyAPI.subscribe()
+    }
+
+    unpublish = () => {
+        this._nearbyAPI.unpublish()
+    }
+
+    unsubscribe = () => {
+        this._nearbyAPI.unsubscribe()
     }
 
     /**
@@ -84,5 +92,3 @@ class NearbyAPI {
           }
     }
 }
-
-export default RNNearbyApi;

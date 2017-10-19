@@ -11,6 +11,9 @@ import {
   Text,
   View
 } from 'react-native';
+import { 
+  NearbyAPI
+} from '../../react-native-nearby-api'
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
@@ -20,6 +23,27 @@ const instructions = Platform.select({
 });
 
 export default class App extends Component<{}> {
+  
+  componentDidMount() {
+    const nearbyAPI = new NearbyAPI()
+    nearbyAPI.onConnected(message => {
+      console.log(message)
+    })
+    nearbyAPI.onFound(message => {
+      console.log('Message Found!')
+      console.log(message)
+    })
+    nearbyAPI.onLost(message => {
+      console.log('Message Lost!')
+      console.log(message)
+    })
+    nearbyAPI.onDistanceChanged((message, value) => {
+      console.log('Distance Changed!')
+      console.log(message, value)
+    })
+    nearbyAPI.publish('Hello World!')
+  }
+
   render() {
     return (
       <View style={styles.container}>
