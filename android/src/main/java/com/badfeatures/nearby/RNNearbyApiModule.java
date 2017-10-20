@@ -1,10 +1,10 @@
 
 package com.badfeatures.nearby;
 
+import android.app.PendingIntent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
 import com.facebook.react.bridge.Arguments;
@@ -61,15 +61,17 @@ public class RNNearbyApiModule extends ReactContextBaseJavaModule implements Lif
         @Override
         public void onFound(Message message) {
             super.onFound(message);
-            Log.i(getName(), "Message Found: " + message.toString());
-            emitEvent(RNNearbyApiEvent.MESSAGE_FOUND, message);
+            String messageAsString = new String(message.getContent());
+            Log.i(getName(), "Message Found: " + messageAsString);
+            emitEvent(RNNearbyApiEvent.MESSAGE_FOUND, messageAsString);
         }
 
         @Override
         public void onLost(Message message) {
             super.onLost(message);
-            Log.i(getName(), "Message Lost: " + message.toString());
-            emitEvent(RNNearbyApiEvent.MESSAGE_LOST, message);
+            String messageAsString = new String(message.getContent());
+            Log.i(getName(), "Message Lost: " + messageAsString);
+            emitEvent(RNNearbyApiEvent.MESSAGE_LOST, messageAsString);
         }
 
         @Override
@@ -92,6 +94,12 @@ public class RNNearbyApiModule extends ReactContextBaseJavaModule implements Lif
     public RNNearbyApiModule(ReactApplicationContext reactContext) {
         super(reactContext);
         this._reactContext = reactContext;
+        reactContext.addLifecycleEventListener(this);
+    }
+
+    @Nullable
+    private String getPublishedMessageString() {
+        return _publishedMessage == null ? null : new String(_publishedMessage.getContent());
     }
 
     @Override
@@ -107,6 +115,7 @@ public class RNNearbyApiModule extends ReactContextBaseJavaModule implements Lif
                     //TODO: Add more functionality (Currently only: Messages API)
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
+//                    .enableAutoManage((FragmentActivity) this.getCurrentActivity(), this)
                     .build();
         }
         return _googleAPIClient;
@@ -143,25 +152,28 @@ public class RNNearbyApiModule extends ReactContextBaseJavaModule implements Lif
 
     @ReactMethod
     public void publish(String message) {
+        Log.i(getName(), "Ready to publish: " + message);
         GoogleApiClient client = getGoogleAPIInstance();
         Message publishMessage = new Message(message.getBytes());
         _publishedMessage = publishMessage;
 
         if(client.isConnected()) {
             PublishOptions options = createPublishOptions(180);
-            Log.i(getName(), "Publishing message: " + publishMessage.toString());
+            Log.i(getName(), "Publishing message: " + new String(publishMessage.getContent()));
             Nearby.Messages.publish(client, publishMessage, options)
-                .setResultCallback(new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(@NonNull Status status) {
-                        if (status.isSuccess()) {
-                            Log.i(getName(), "Published message.");
-                        } else {
-                            Log.e(getName(), "Publish failed");
-                            Log.e(getName(), status.getStatusMessage());
+                    .setResultCallback(new ResultCallback<Status>() {
+                        @Override
+                        public void onResult(@NonNull Status status) {
+                            if (status.isSuccess()) {
+                                Log.i(getName(), "Published message.");
+                            } else {
+                                Log.e(getName(), "Publish failed");
+                                Log.e(getName(), status.getStatusMessage());
+                            }
                         }
-                    }
-                });
+                    });
+        } else {
+            client.connect();
         }
     }
 
@@ -192,6 +204,8 @@ public class RNNearbyApiModule extends ReactContextBaseJavaModule implements Lif
                             }
                         }
                     });
+        } else {
+            client.connect();
         }
     }
 
@@ -206,7 +220,8 @@ public class RNNearbyApiModule extends ReactContextBaseJavaModule implements Lif
     public void onConnected(@Nullable Bundle bundle) {
         Log.i(getName(), "Google API Client connected.");
         if(_publishedMessage != null) {
-            publish(_publishedMessage.toString());
+            String messageAsString = new String(_publishedMessage.getContent());
+            publish(messageAsString);
         }
         subscribe();
         emitEvent(RNNearbyApiEvent.CONNECTED, "Nearby Messages is publishing and subscribing.");
@@ -222,13 +237,24 @@ public class RNNearbyApiModule extends ReactContextBaseJavaModule implements Lif
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.e(getName(), RNNearbyApiEvent.CONNECTION_FAILED.toString() + " " + connectionResult.toString());
         emitEvent(RNNearbyApiEvent.CONNECTION_FAILED, "Google Client connection failed: " + connectionResult.getErrorMessage());
+        if(connectionResult.hasResolution()) {
+            try {
+                PendingIntent pi = connectionResult.getResolution();
+                pi.send();
+            } catch (PendingIntent.CanceledException exception) {
+                Log.e(getName(), exception.getMessage());
+            }
+
+        }
     }
 
     @Override
     public void onHostResume() {
         Log.i(getName(), "onHostResume");
-        GoogleApiClient client = getGoogleAPIInstance();
-        client.connect();
+        String pubMsg = getPublishedMessageString();
+        if(pubMsg != null) {
+            publish(pubMsg);
+        }
     }
 
     @Override
@@ -249,11 +275,11 @@ public class RNNearbyApiModule extends ReactContextBaseJavaModule implements Lif
     }
 
     private void emitEvent(RNNearbyApiEvent event, Message message) {
-        emitEvent(event, message.toString());
+        emitEvent(event, new String(message.getContent()));
     }
 
     private void emitEvent(RNNearbyApiEvent event, Message message, Integer value) {
-        emitEvent(event, message.toString(), value);
+        emitEvent(event, new String(message.getContent()), value);
     }
 
     private void emitEvent(RNNearbyApiEvent event, String message) {
