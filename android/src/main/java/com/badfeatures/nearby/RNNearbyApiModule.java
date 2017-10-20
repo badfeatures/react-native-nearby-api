@@ -255,6 +255,7 @@ public class RNNearbyApiModule extends ReactContextBaseJavaModule implements Lif
         if(pubMsg != null) {
             publish(pubMsg);
         }
+        subscribe();
     }
 
     @Override
