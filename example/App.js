@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import { 
   NearbyAPI
-} from '../../react-native-nearby-api'
+} from 'react-native-nearby-api'
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
@@ -23,38 +23,46 @@ const instructions = Platform.select({
 });
 
 export default class App extends Component<{}> {
+  constructor() {
+    super()
+    this.state = {
+      nearbyMessage: null
+    }
+  }
   
   componentDidMount() {
+    console.log('Mounting ', NearbyAPI)
     const nearbyAPI = new NearbyAPI()
     nearbyAPI.onConnected(message => {
       console.log(message)
+      this.setState({ nearbyMessage: `Connected - ${message}` })
     })
     nearbyAPI.onFound(message => {
       console.log('Message Found!')
       console.log(message)
+      this.setState({ nearbyMessage: `Message Found - ${message}` })
     })
     nearbyAPI.onLost(message => {
       console.log('Message Lost!')
       console.log(message)
+      this.setState({ nearbyMessage: `Message Lost - ${message}` })
     })
     nearbyAPI.onDistanceChanged((message, value) => {
       console.log('Distance Changed!')
       console.log(message, value)
+      this.setState({ nearbyMessage: `Distance Changed - ${message} - ${value}` })
     })
-    nearbyAPI.publish('Hello World!')
+    nearbyAPI.publish(`Hello World! - ${Math.random()}`)
   }
 
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to React Native!
+          Welcome to react-native-nearby-api test app!
         </Text>
         <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-        <Text style={styles.instructions}>
-          {instructions}
+         {this.state.nearbyMessage}
         </Text>
       </View>
     );
