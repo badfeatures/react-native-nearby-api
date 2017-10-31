@@ -9,6 +9,7 @@ const { RNNearbyApi } = NativeModules;
 export const CONNECTED = "CONNECTED";
 export const CONNECTION_SUSPENDED = "CONNECTION_SUSPENDED";
 export const CONNECTION_FAILED = "CONNECTION_FAILED";
+export const DISCONNECTED = "DISCONNECTED";
 export const MESSAGE_FOUND = "MESSAGE_FOUND";
 export const MESSAGE_LOST = "MESSAGE_LOST";
 export const DISTANCE_CHANGED = "DISTANCE_CHANGED";
@@ -32,6 +33,10 @@ export class NearbyAPI {
 
   connect = () => {
     this._nearbyAPI.connect();
+  };
+
+  disconnect = () => {
+    tihs._nearbyAPI.disconnect();
   };
 
   publish = message => {
@@ -68,6 +73,10 @@ export class NearbyAPI {
 
   onConnectionSuspended = handler => {
     this._setHandler(CONNECTION_SUSPENDED, handler);
+  };
+
+  onDisconnected = handler => {
+    this._setHandler(DISCONNECTED, handler);
   };
 
   onFound = handler => {

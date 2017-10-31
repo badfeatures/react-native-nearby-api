@@ -41,6 +41,13 @@ export default class App extends Component {
         nearbyMessage: `Connected - ${message}`
       });
     });
+    nearbyAPI.onDisconnected(message => {
+      console.log(message);
+      this.setState({
+        isConnected: false,
+        nearbyMessage: `Disconnected - ${message}`
+      });
+    });
     nearbyAPI.onFound(message => {
       console.log("Message Found!");
       console.log(message);
@@ -75,7 +82,11 @@ export default class App extends Component {
   }
 
   _connectPress = () => {
-    nearbyAPI.connect();
+    if (this.state.isConnected) {
+      nearbyAPI.disconnect();
+    } else {
+      nearbyAPI.connect();
+    }
   };
 
   _publishPress = () => {
@@ -93,7 +104,9 @@ export default class App extends Component {
         </Text>
         <Text style={styles.instructions}>{this.state.nearbyMessage}</Text>
         <TouchableOpacity onPress={this._connectPress}>
-          <Text style={styles.connectButton}>CONNECT</Text>
+          <Text style={styles.connectButton}>
+            {this.state.isConnected ? "DISCONNECT" : "CONNECT"}
+          </Text>
         </TouchableOpacity>
         <View style={{ height: 32 }} />
         <TouchableOpacity onPress={this._publishPress}>

@@ -36,6 +36,7 @@ public class RNNearbyApiModule extends ReactContextBaseJavaModule implements Lif
         CONNECTED("CONNECTED"),
         CONNECTION_SUSPENDED("CONNECTION_SUSPENDED"),
         CONNECTION_FAILED("CONNECTION_FAILED"),
+        DISCONNECTED("DISCONNECTED"),
         MESSAGE_FOUND("MESSAGE_FOUND"),
         MESSAGE_LOST("MESSAGE_LOST"),
         DISTANCE_CHANGED("DISTANCE_CHANGED"),
@@ -163,6 +164,14 @@ public class RNNearbyApiModule extends ReactContextBaseJavaModule implements Lif
             return;
         }
         client.connect();
+    }
+
+    @ReactMethod
+    public void disconnect() {
+        GoogleApiClient client = getGoogleAPIInstance();
+        client.disconnect();
+        Log.d(getName(), "Google API Client disconnected.");
+        emitEvent(RNNearbyApiEvent.DISCONNECTED, "Google API Client is disconnected.");
     }
 
     @ReactMethod

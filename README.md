@@ -3,7 +3,7 @@
 
 ## Getting started
 
-`$ npm install react-native-nearby-api --save`
+`$ yarn react-native-nearby-api` or `$ npm install react-native-nearby-api --save`
 
 ### Mostly automatic installation
 
@@ -11,18 +11,12 @@
 
 ### Manual installation
 
-
 #### iOS
-
-1. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
-2. Go to `node_modules` ➜ `react-native-nearby-api` and add `RNNearbyApi.xcodeproj`
-3. In XCode, in the project navigator, select your project. Add `libRNNearbyApi.a` to your project's `Build Phases` ➜ `Link Binary With Libraries`
-4. Run your project (`Cmd+R`)<
+- Coming Soon!
 
 #### Android
-
 1. Open up `android/app/src/main/java/[...]/MainActivity.java`
-  - Add `import com.reactlibrary.RNNearbyApiPackage;` to the imports at the top of the file
+  - Add `import com.badfeatures.nearby.RNNearbyApiPackage;` to the imports at the top of the file
   - Add `new RNNearbyApiPackage()` to the list returned by the `getPackages()` method
 2. Append the following lines to `android/settings.gradle`:
   	```
@@ -36,10 +30,51 @@
 
 
 ## Usage
-```javascript
-import RNNearbyApi from 'react-native-nearby-api';
+See the [example app](https://github.com/badfeatures/react-native-nearby-api/tree/master/example) for more detail and code examples.
 
-// TODO: What to do with the module?
-RNNearbyApi;
+```javascript
+import NearbyApi from 'react-native-nearby-api';
+
+const nearbyAPI = new NearbyAPI()
+nearbyAPI.onConnected(message => {
+	console.log(message);
+});
+nearbyAPI.onDisconnected(message => {
+	console.log(message);
+});
+nearbyAPI.onFound(message => {
+	console.log("Message Found!");
+	console.log(message);
+});
+nearbyAPI.onLost(message => {
+	console.log("Message Lost!");
+	console.log(message);
+});
+nearbyAPI.onDistanceChanged((message, value) => {
+	console.log("Distance Changed!");
+	console.log(message, value);
+});
+nearbyAPI.onPublishSuccess(message => {
+	console.log(message);
+});
+nearbyAPI.onPublishFailed(message => {
+	console.log(message);
+});
+nearbyAPI.onSubscribeSuccess(() => {
+});
+nearbyAPI.onSubscribeFailed(() => {
+});
+	
+// To connect from Google API Client
+nearbyAPI.connect()
+
+// To disconnect later
+nearbyAPI.disconnect()
+
+// To publish to nearby devices
+nearbyAPI.publish('Hello World!')
+
+// To subscribe to nearby devices broadcasting
+nearbyAPI.subscribe();
 ```
   
