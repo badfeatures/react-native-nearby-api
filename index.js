@@ -36,7 +36,7 @@ export class NearbyAPI {
   };
 
   disconnect = () => {
-    tihs._nearbyAPI.disconnect();
+    this._nearbyAPI.disconnect();
   };
 
   publish = message => {
