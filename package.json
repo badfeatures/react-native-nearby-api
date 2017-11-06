@@ -1,4 +1,3 @@
-
 {
   "name": "react-native-nearby-api",
   "version": "0.0.1",
@@ -19,5 +18,8 @@
   "license": "",
   "peerDependencies": {
     "react-native": "^0.41.2"
+  },
+  "dependencies": {
+    "react-native": "^0.50.1"
   }
 }

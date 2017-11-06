@@ -1,11 +1,11 @@
-
-#if __has_include("RCTBridgeModule.h")
-#import "RCTBridgeModule.h"
-#else
 #import <React/RCTBridgeModule.h>
-#endif
+#import <React/RCTEventEmitter.h>
+#import <GNSMessages.h>
 
-@interface RNNearbyApi : NSObject <RCTBridgeModule>
+@interface RNNearbyApi : RCTEventEmitter <RCTBridgeModule>
+
+@property(nonatomic, strong) id<GNSPublication> publication;
+@property(nonatomic, strong) id<GNSSubscription> subscription;
 
 @end
   
