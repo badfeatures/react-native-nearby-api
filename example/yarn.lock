@@ -3415,9 +3415,9 @@ react-devtools-core@^2.5.0:
     shell-quote "^1.6.1"
     ws "^2.0.3"
 
-"react-native-nearby-api@git+ssh://git@github.com:badfeatures/react-native-nearby-api.git#0.0.3-beta":
+"react-native-nearby-api@git+ssh://git@github.com:badfeatures/react-native-nearby-api.git#0.0.3-beta.1":
   version "0.0.3-beta"
-  resolved "git+ssh://git@github.com:badfeatures/react-native-nearby-api.git#61f9210f2ecadb87705fb9dd83c57704a99e6606"
+  resolved "git+ssh://git@github.com:badfeatures/react-native-nearby-api.git#3418b970ff9e464a5265d271a5958271953855f9"
   dependencies:
     react-native "^0.50.1"
 

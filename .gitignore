@@ -30,6 +30,7 @@ DerivedData
 *.xcuserstate
 project.xcworkspace
 Pods/
+RNNearbyApi.xcworkspace
       
 
 # Android/IntelliJ

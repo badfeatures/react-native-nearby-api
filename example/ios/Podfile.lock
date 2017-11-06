@@ -14,6 +14,7 @@ PODS:
   - React (0.50.1):
     - React/Core (= 0.50.1)
   - react-native-nearby-api (0.0.3-beta):
+    - NearbyMessages (= 1.1.0)
     - React
   - React/Core (0.50.1):
     - yoga (= 0.50.1.React)
@@ -40,7 +41,7 @@ SPEC CHECKSUMS:
   GoogleUtilities: 8bbc733218aad26306f9d4a253823986110e3358
   NearbyMessages: be3e1c44b563c020246312647f3f1128b603693d
   React: 2b50e9e9151d1b7a5fba4ad593b1393ec3c9654b
-  react-native-nearby-api: ae654b0c43f90bf1b2979470ab2589943d15bd26
+  react-native-nearby-api: d6c5ed6af6ace8dc45f4f522fd79341ac3d1b967
   yoga: f25f45222e44e880cc6e4e26513c24bdc8a5cfd7
 
 PODFILE CHECKSUM: a989b89aa4958d1a37067f7b729466814c38a587
