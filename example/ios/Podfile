@@ -9,5 +9,5 @@ target 'example' do
   pod 'React', path: rn_path
 
   pod 'NearbyMessages', '1.1.0'
-  pod 'react-native-nearby-api', :path => '../node_modules/react-native-maps'
+  pod 'react-native-nearby-api', :path => '../node_modules/react-native-nearby-api'
 end

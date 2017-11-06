@@ -16,4 +16,5 @@ Pod::Spec.new do |s|
   s.source_files  = "ios/Classes/**/*.{h,m}"
 
   s.dependency 'React'
+  s.dependency 'NearbyMessages', '1.1.0'
 end
