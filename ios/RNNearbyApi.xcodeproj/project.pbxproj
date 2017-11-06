@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B3E7B58A1CC2AC0600A0062D /* RNNearbyApi.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E7B5891CC2AC0600A0062D /* RNNearbyApi.m */; };
+		CA1E620A39C95D331CAB6CC6 /* libPods-RNNearbyApi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C57FC74FAB45030F7D82A351 /* libPods-RNNearbyApi.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -24,8 +25,11 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libRNNearbyApi.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNNearbyApi.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		25FADF3D61E4E16BB37F7DDB /* Pods-RNNearbyApi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNNearbyApi.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RNNearbyApi/Pods-RNNearbyApi.debug.xcconfig"; sourceTree = "<group>"; };
 		B3E7B5881CC2AC0600A0062D /* RNNearbyApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNNearbyApi.h; sourceTree = "<group>"; };
 		B3E7B5891CC2AC0600A0062D /* RNNearbyApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNNearbyApi.m; sourceTree = "<group>"; };
+		BCB8FA754EC7D69D3C065376 /* Pods-RNNearbyApi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNNearbyApi.release.xcconfig"; path = "Pods/Target Support Files/Pods-RNNearbyApi/Pods-RNNearbyApi.release.xcconfig"; sourceTree = "<group>"; };
+		C57FC74FAB45030F7D82A351 /* libPods-RNNearbyApi.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RNNearbyApi.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +37,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA1E620A39C95D331CAB6CC6 /* libPods-RNNearbyApi.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -47,12 +52,31 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		33A5EBA8266C5140AB6EBED7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C57FC74FAB45030F7D82A351 /* libPods-RNNearbyApi.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3AC0CE62DCDDDBADA8AB755C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				25FADF3D61E4E16BB37F7DDB /* Pods-RNNearbyApi.debug.xcconfig */,
+				BCB8FA754EC7D69D3C065376 /* Pods-RNNearbyApi.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
 				B3E7B5881CC2AC0600A0062D /* RNNearbyApi.h */,
 				B3E7B5891CC2AC0600A0062D /* RNNearbyApi.m */,
 				134814211AA4EA7D00B7C361 /* Products */,
+				3AC0CE62DCDDDBADA8AB755C /* Pods */,
+				33A5EBA8266C5140AB6EBED7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -63,9 +87,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 58B511EF1A9E6C8500147676 /* Build configuration list for PBXNativeTarget "RNNearbyApi" */;
 			buildPhases = (
+				A0C9423AC62268D1663DE88F /* [CP] Check Pods Manifest.lock */,
 				58B511D71A9E6C8500147676 /* Sources */,
 				58B511D81A9E6C8500147676 /* Frameworks */,
 				58B511D91A9E6C8500147676 /* CopyFiles */,
+				989DEEA777F5DE4F5610A210 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -106,6 +132,47 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		989DEEA777F5DE4F5610A210 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-RNNearbyApi/Pods-RNNearbyApi-resources.sh",
+				"${PODS_ROOT}/NearbyMessages/Resources/resources/GNSSharedResources.bundle",
+				"${PODS_ROOT}/NearbyMessages/Resources/resources/ic_expand_more.xcassets",
+				"${PODS_ROOT}/NearbyMessages/Resources/resources/ic_nearby_48pt.xcassets",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RNNearbyApi/Pods-RNNearbyApi-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A0C9423AC62268D1663DE88F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-RNNearbyApi-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		58B511D71A9E6C8500147676 /* Sources */ = {
@@ -202,9 +269,10 @@
 		};
 		58B511F01A9E6C8500147676 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 25FADF3D61E4E16BB37F7DDB /* Pods-RNNearbyApi.debug.xcconfig */;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = (
-				"$(inherited)",
+					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../../../React/**",
 					"$(SRCROOT)/../../react-native/React/**",
@@ -218,6 +286,7 @@
 		};
 		58B511F11A9E6C8500147676 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BCB8FA754EC7D69D3C065376 /* Pods-RNNearbyApi.release.xcconfig */;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
