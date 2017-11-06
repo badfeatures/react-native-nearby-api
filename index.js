@@ -1,5 +1,10 @@
 "use strict";
-import { NativeModules, DeviceEventEmitter } from "react-native";
+import {
+  Platform,
+  NativeModules,
+  DeviceEventEmitter,
+  NativeEventEmitter
+} from "react-native";
 
 const { RNNearbyApi } = NativeModules;
 
@@ -23,7 +28,8 @@ export class NearbyAPI {
   constructor() {
     this._nearbyAPI = RNNearbyApi;
     //TODO: Change according to platform, (DeviceEventEmitter for Android)
-    this._eventEmitter = DeviceEventEmitter;
+    this._eventEmitter =
+      Platform.OS === "android" ? DeviceEventEmitter : NativeEventEmitter;
     this._handlers = {};
     this._deviceEventSubscription = this._eventEmitter.addListener(
       "subscribe",
