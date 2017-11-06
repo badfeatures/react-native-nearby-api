@@ -26,8 +26,8 @@
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libRNNearbyApi.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNNearbyApi.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		25FADF3D61E4E16BB37F7DDB /* Pods-RNNearbyApi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNNearbyApi.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RNNearbyApi/Pods-RNNearbyApi.debug.xcconfig"; sourceTree = "<group>"; };
-		B3E7B5881CC2AC0600A0062D /* RNNearbyApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNNearbyApi.h; sourceTree = "<group>"; };
-		B3E7B5891CC2AC0600A0062D /* RNNearbyApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNNearbyApi.m; sourceTree = "<group>"; };
+		B3E7B5881CC2AC0600A0062D /* RNNearbyApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RNNearbyApi.h; path = Classes/RNNearbyApi.h; sourceTree = "<group>"; };
+		B3E7B5891CC2AC0600A0062D /* RNNearbyApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RNNearbyApi.m; path = Classes/RNNearbyApi.m; sourceTree = "<group>"; };
 		BCB8FA754EC7D69D3C065376 /* Pods-RNNearbyApi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNNearbyApi.release.xcconfig"; path = "Pods/Target Support Files/Pods-RNNearbyApi/Pods-RNNearbyApi.release.xcconfig"; sourceTree = "<group>"; };
 		C57FC74FAB45030F7D82A351 /* libPods-RNNearbyApi.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RNNearbyApi.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */

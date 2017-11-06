@@ -66,7 +66,7 @@ RCT_EXPORT_MODULE()
     NSString *eventString = [self stringForAPIEvent:event];
     NSString *messageString = [[NSString alloc] initWithData:message.content encoding: NSUTF8StringEncoding];
     NSDictionary *body = @{
-                           @"event": @"eventString",
+                           @"event": eventString,
                            @"message": messageString
                            };
     [self sendEventWithName:[self stringForAPIEvent:event] body:body];
