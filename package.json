@@ -7,8 +7,10 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "run:packager": "./node_modules/react-native/packager/packager.sh",
     "run:ios": "react-native run-ios --project-path ./example/ios",
-    "build:ios": "bundle install --binstubs ./example/ios && bundle exec pod install --project-directory=./example/ios/ && yarn bundle:ios",
-    "bundle:ios": "node node_modules/react-native/local-cli/cli.js bundle --entry-file='./example/index.js' --bundle-output='./example/ios/example/main.jsbundle' --dev=false --platform='ios'",
+    "build:ios":
+      "bundle install --binstubs ./example/ios && bundle exec pod install --project-directory=./example/ios/ && yarn bundle:ios",
+    "bundle:ios":
+      "node node_modules/react-native/local-cli/cli.js bundle --entry-file='./example/index.js' --bundle-output='./example/ios/example/main.jsbundle' --dev=false --platform='ios'",
     "build:android": "./gradlew :react-native-nearby-api:assembleDebug",
     "start:android": "adb shell am start -n com.example/.MainActivity",
     "run:android": "./gradlew installDebug && yarn start:android"
@@ -24,9 +26,11 @@
   "author": "Bad Features, Inc",
   "license": "",
   "peerDependencies": {
+    "react": ">=15.4.0 || ^16.0.0-alpha",
     "react-native": "^0.41.2"
   },
   "devDependencies": {
+    "react": "16.0.0-alpha.12",
     "react-native": "^0.50.1"
   }
 }

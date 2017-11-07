@@ -103,9 +103,9 @@
       </BuildableProductRunnable>
       <EnvironmentVariables>
          <EnvironmentVariable
-            key = "DEBUG"
-            value = "1"
-            isEnabled = "YES">
+            key = "OS_ACTIVITY_MODE"
+            value = "disable"
+            isEnabled = "NO">
          </EnvironmentVariable>
       </EnvironmentVariables>
       <AdditionalOptions>

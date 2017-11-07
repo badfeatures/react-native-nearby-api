@@ -49,18 +49,6 @@ RCT_EXPORT_MODULE()
 
 - (NSArray<NSString *> *)supportedEvents {
     return @[@"subscribe"];
-//    return @[@"CONNECTED",
-//             @"CONNECTION_SUSPENDED",
-//             @"CONNECTION_FAILED",
-//             @"DISCONNECTED",
-//             @"MESSAGE_FOUND",
-//             @"MESSAGE_LOST",
-//             @"DISTANCE_CHANGED",
-//             @"BLE_SIGNAL_CHANGED",
-//             @"PUBLISH_SUCCESS",
-//             @"PUBLISH_FAILED",
-//             @"SUBSCRIBE_SUCCESS",
-//             @"SUBSCRIBE_FAILED"];
 }
 
 - (void)sendEvent:(RNNearbyApiEvent)event withMessage:(GNSMessage *)message {
@@ -73,7 +61,12 @@ RCT_EXPORT_MODULE()
     [self sendEventWithName:@"subscribe" body:body];
 }
 
-- (void)sendEvent:(RNNearbyApiEvent)event withBody:(id)body {
+- (void)sendEvent:(RNNearbyApiEvent)event withString:(NSString *)string {
+    NSString *eventString = [self stringForAPIEvent:event];
+    NSDictionary *body = @{
+                           @"event": eventString,
+                           @"message": string
+                           };
     [self sendEventWithName:@"subscribe" body:body];
 }
 
@@ -88,26 +81,26 @@ RCT_EXPORT_MODULE()
 RCT_EXPORT_METHOD(connect) {
     // iOS Doesn't have a connect: method
     [self sharedMessageManager];
-    [self sendEvent:CONNECTED withBody:@"Successfully connected."];
+    [self sendEvent:CONNECTED withString:@"Successfully connected."];
 }
 
 RCT_EXPORT_METHOD(disconnect) {
     // iOS Doesn't have a disconnect: method
     // Try setting messageManager to nil
     _messageManager = nil;
-    [self sendEvent:DISCONNECTED withBody:@"Successfully disconnected."];
+    [self sendEvent:DISCONNECTED withString:@"Successfully disconnected."];
 }
 
 RCT_EXPORT_METHOD(publish:(nonnull NSString *)messageString) {
     if(messageString == nil) {
-        [self sendEvent:PUBLISH_FAILED withBody:@"Cannot publish an empty message"];
+        [self sendEvent:PUBLISH_FAILED withString:@"Cannot publish an empty message"];
     }
     // Release old publication
     [self unpublish];
     // Create new message
     GNSMessage *message = [GNSMessage messageWithContent: [messageString dataUsingEncoding: NSUTF8StringEncoding]];
     publication = [[self sharedMessageManager] publicationWithMessage: message];
-    [self sendEvent:PUBLISH_SUCCESS withBody:[NSString stringWithFormat:@"Successfully published: %@", messageString]];
+    [self sendEvent:PUBLISH_SUCCESS withString:[NSString stringWithFormat:@"Successfully published: %@", messageString]];
 }
 
 RCT_EXPORT_METHOD(unpublish) {
@@ -124,7 +117,7 @@ RCT_EXPORT_METHOD(subscribe) {
     } messageLostHandler:^(GNSMessage *message) {
         [welf sendEvent:MESSAGE_LOST withMessage:message];
     }];
-    [self sendEvent:SUBSCRIBE_SUCCESS withBody:@"Successfully Subscribed."];
+    [self sendEvent:SUBSCRIBE_SUCCESS withString:@"Successfully Subscribed."];
 }
 
 RCT_EXPORT_METHOD(unsubscribe) {

@@ -30,13 +30,13 @@ export class NearbyAPI {
     this._eventEmitter =
       Platform.OS === "android"
         ? DeviceEventEmitter
-        : new NativeEventEmitter(RNNearbyApi);
+        : new NativeEventEmitter(this._nearbyAPI);
     this._handlers = {};
     this._deviceEventSubscription = this._eventEmitter.addListener(
       "subscribe",
       Platform.OS === "android"
         ? this._eventHandler.bind(this)
-        : this._eventHandler
+        : this._eventHandler.bind(this)
     );
   }
 
@@ -125,6 +125,7 @@ export class NearbyAPI {
   };
 
   _eventHandler = event => {
+    console.log(event);
     if (this._handlers.hasOwnProperty(event.event)) {
       this._handlers[event.event](
         event.hasOwnProperty("message") ? event.message : null,

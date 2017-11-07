@@ -72,7 +72,7 @@ export default class App extends Component {
       console.log(message);
       this.setState({
         nearbyMessage: `Publish Success - ${message}`,
-        publishText: "PUBLISH"
+        publishText: "UNPUBLISH"
       });
     });
     nearbyAPI.onPublishFailed(message => {
@@ -103,7 +103,7 @@ export default class App extends Component {
       nearbyAPI.publish(`Hello World! - ${Math.random()}`);
     } else {
       nearbyAPI.unpublish();
-      this.setState({ subscribeText: "UNPUBLISH" });
+      this.setState({ publishText: "PUBLISH" });
     }
   };
 
