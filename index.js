@@ -27,13 +27,16 @@ export const SUBSCRIBE_FAILED = "SUBSCRIBE_FAILED";
 export class NearbyAPI {
   constructor() {
     this._nearbyAPI = RNNearbyApi;
-    //TODO: Change according to platform, (DeviceEventEmitter for Android)
     this._eventEmitter =
-      Platform.OS === "android" ? DeviceEventEmitter : NativeEventEmitter;
+      Platform.OS === "android"
+        ? DeviceEventEmitter
+        : new NativeEventEmitter(RNNearbyApi);
     this._handlers = {};
     this._deviceEventSubscription = this._eventEmitter.addListener(
       "subscribe",
-      this._eventHandler.bind(this)
+      Platform.OS === "android"
+        ? this._eventHandler.bind(this)
+        : this._eventHandler
     );
   }
 

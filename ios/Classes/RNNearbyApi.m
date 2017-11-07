@@ -48,18 +48,19 @@ RCT_EXPORT_MODULE()
 }
 
 - (NSArray<NSString *> *)supportedEvents {
-    return @[@"CONNECTED",
-             @"CONNECTION_SUSPENDED",
-             @"CONNECTION_FAILED",
-             @"DISCONNECTED",
-             @"MESSAGE_FOUND",
-             @"MESSAGE_LOST",
-             @"DISTANCE_CHANGED",
-             @"BLE_SIGNAL_CHANGED",
-             @"PUBLISH_SUCCESS",
-             @"PUBLISH_FAILED",
-             @"SUBSCRIBE_SUCCESS",
-             @"SUBSCRIBE_FAILED"];
+    return @[@"subscribe"];
+//    return @[@"CONNECTED",
+//             @"CONNECTION_SUSPENDED",
+//             @"CONNECTION_FAILED",
+//             @"DISCONNECTED",
+//             @"MESSAGE_FOUND",
+//             @"MESSAGE_LOST",
+//             @"DISTANCE_CHANGED",
+//             @"BLE_SIGNAL_CHANGED",
+//             @"PUBLISH_SUCCESS",
+//             @"PUBLISH_FAILED",
+//             @"SUBSCRIBE_SUCCESS",
+//             @"SUBSCRIBE_FAILED"];
 }
 
 - (void)sendEvent:(RNNearbyApiEvent)event withMessage:(GNSMessage *)message {
@@ -69,11 +70,11 @@ RCT_EXPORT_MODULE()
                            @"event": eventString,
                            @"message": messageString
                            };
-    [self sendEventWithName:[self stringForAPIEvent:event] body:body];
+    [self sendEventWithName:@"subscribe" body:body];
 }
 
 - (void)sendEvent:(RNNearbyApiEvent)event withBody:(id)body {
-    [self sendEventWithName:[self stringForAPIEvent:event] body:body];
+    [self sendEventWithName:@"subscribe" body:body];
 }
 
 - (id)sharedMessageManager {

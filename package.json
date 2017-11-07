@@ -4,9 +4,14 @@
   "description": "React Native wrapper around Google's Nearby API SDK",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "run:packager": "./node_modules/react-native/packager/packager.sh",
     "run:ios": "react-native run-ios --project-path ./example/ios",
-    "build:ios": "bundle install --binstubs ./example/ios && bundle exec pod install --project-directory=./example/ios/"
+    "build:ios": "bundle install --binstubs ./example/ios && bundle exec pod install --project-directory=./example/ios/ && yarn bundle:ios",
+    "bundle:ios": "node node_modules/react-native/local-cli/cli.js bundle --entry-file='./example/index.js' --bundle-output='./example/ios/example/main.jsbundle' --dev=false --platform='ios'",
+    "build:android": "./gradlew :react-native-nearby-api:assembleDebug",
+    "start:android": "adb shell am start -n com.example/.MainActivity",
+    "run:android": "./gradlew installDebug && yarn start:android"
   },
   "keywords": [
     "react-native",
@@ -23,8 +28,5 @@
   },
   "devDependencies": {
     "react-native": "^0.50.1"
-  },
-  "dependencies": {
-    "react": "^16.0.0"
   }
 }

@@ -28,7 +28,10 @@ export default class App extends Component {
     super();
     this.state = {
       isConnected: false,
-      nearbyMessage: null
+      nearbyMessage: null,
+      connectText: "CONNECT",
+      publishText: "PUBLISH",
+      subscribeText: "SUBSCRIBE"
     };
   }
 
@@ -67,14 +70,20 @@ export default class App extends Component {
     });
     nearbyAPI.onPublishSuccess(message => {
       console.log(message);
-      this.setState({ nearbyMessage: `Publish Success - ${message}` });
+      this.setState({
+        nearbyMessage: `Publish Success - ${message}`,
+        publishText: "PUBLISH"
+      });
     });
     nearbyAPI.onPublishFailed(message => {
       console.log(message);
       this.setState({ nearbyMessage: `Publish Failed - ${message}` });
     });
     nearbyAPI.onSubscribeSuccess(() => {
-      this.setState({ nearbyMessage: `Subscribe Success` });
+      this.setState({
+        nearbyMessage: `Subscribe Success`,
+        subscribeText: "UNSUBSCRIBE"
+      });
     });
     nearbyAPI.onSubscribeFailed(() => {
       this.setState({ nearbyMessage: `Subscribe Failed` });
@@ -90,7 +99,21 @@ export default class App extends Component {
   };
 
   _publishPress = () => {
-    nearbyAPI.publish(`Hello World! - ${Math.random()}`);
+    if (this.state.publishText === "PUBLISH") {
+      nearbyAPI.publish(`Hello World! - ${Math.random()}`);
+    } else {
+      nearbyAPI.unpublish();
+      this.setState({ subscribeText: "UNPUBLISH" });
+    }
+  };
+
+  _subscribePress = () => {
+    if (this.state.subscribeText === "SUBSCRIBE") {
+      nearbyAPI.subscribe();
+    } else {
+      nearbyAPI.unsubscribe();
+      this.setState({ subscribeText: "SUBSCRIBE" });
+    }
   };
 
   render() {
@@ -110,7 +133,11 @@ export default class App extends Component {
         </TouchableOpacity>
         <View style={{ height: 32 }} />
         <TouchableOpacity onPress={this._publishPress}>
-          <Text style={styles.connectButton}>PUBLISH</Text>
+          <Text style={styles.connectButton}>{this.state.publishText}</Text>
+        </TouchableOpacity>
+        <View style={{ height: 32 }} />
+        <TouchableOpacity onPress={this._subscribePress}>
+          <Text style={styles.connectButton}>{this.state.subscribeText}</Text>
         </TouchableOpacity>
       </View>
     );

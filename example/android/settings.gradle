@@ -1,5 +1,0 @@
-rootProject.name = 'example'
-include ':react-native-nearby-api'
-project(':react-native-nearby-api').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-nearby-api/android')
-
-include ':app'
