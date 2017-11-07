@@ -4,7 +4,9 @@
   "description": "React Native wrapper around Google's Nearby API SDK",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "run:ios": "react-native run-ios --project-path ./example/ios",
+    "build:ios": "bundle install --binstubs ./example/ios && bundle exec pod install --project-directory=./example/ios/"
   },
   "keywords": [
     "react-native",
@@ -21,5 +23,8 @@
   },
   "devDependencies": {
     "react-native": "^0.50.1"
+  },
+  "dependencies": {
+    "react": "^16.0.0"
   }
 }
