@@ -1,5 +1,10 @@
 "use strict";
-import { NativeModules, DeviceEventEmitter } from "react-native";
+import {
+  Platform,
+  NativeModules,
+  DeviceEventEmitter,
+  NativeEventEmitter
+} from "react-native";
 
 const { RNNearbyApi } = NativeModules;
 
@@ -22,12 +27,16 @@ export const SUBSCRIBE_FAILED = "SUBSCRIBE_FAILED";
 export class NearbyAPI {
   constructor() {
     this._nearbyAPI = RNNearbyApi;
-    //TODO: Change according to platform, (DeviceEventEmitter for Android)
-    this._eventEmitter = DeviceEventEmitter;
+    this._eventEmitter =
+      Platform.OS === "android"
+        ? DeviceEventEmitter
+        : new NativeEventEmitter(this._nearbyAPI);
     this._handlers = {};
     this._deviceEventSubscription = this._eventEmitter.addListener(
       "subscribe",
-      this._eventHandler.bind(this)
+      Platform.OS === "android"
+        ? this._eventHandler.bind(this)
+        : this._eventHandler.bind(this)
     );
   }
 
@@ -116,6 +125,7 @@ export class NearbyAPI {
   };
 
   _eventHandler = event => {
+    console.log(event);
     if (this._handlers.hasOwnProperty(event.event)) {
       this._handlers[event.event](
         event.hasOwnProperty("message") ? event.message : null,
