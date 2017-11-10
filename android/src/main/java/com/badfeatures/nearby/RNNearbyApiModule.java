@@ -201,6 +201,7 @@ public class RNNearbyApiModule extends ReactContextBaseJavaModule implements Lif
                     });
         } else {
             Log.e(getName(), "Google API Client not connected. Call " + getName() + ".connect() before publishing.");
+            emitEvent(RNNearbyApiEvent.PUBLISH_FAILED, "Google API Client not connected. Call " + getName() + ".connect() before publishing.");
         }
     }
 
@@ -238,6 +239,7 @@ public class RNNearbyApiModule extends ReactContextBaseJavaModule implements Lif
                     });
         } else {
             Log.e(getName(), "Google API Client not connected. Call " + getName() + ".connect() before subscribing.");
+            emitEvent(RNNearbyApiEvent.SUBSCRIBE_FAILED, "Google API Client not connected. Call " + getName() + ".connect() before subscribing.");
         }
     }
 
