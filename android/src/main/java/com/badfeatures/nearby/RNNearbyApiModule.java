@@ -207,7 +207,7 @@ public class RNNearbyApiModule extends ReactContextBaseJavaModule implements Lif
     @ReactMethod
     public void unpublish() {
         GoogleApiClient client = getGoogleAPIInstance();
-        if(_publishedMessage != null || _isPublishing) {
+        if(client.isConnected() && (_publishedMessage != null || _isPublishing)) {
             Nearby.Messages.unpublish(client, _publishedMessage);
             _publishedMessage = null;
             _isPublishing = false;
@@ -244,7 +244,8 @@ public class RNNearbyApiModule extends ReactContextBaseJavaModule implements Lif
     @ReactMethod
     public void unsubscribe() {
         GoogleApiClient client = getGoogleAPIInstance();
-        Nearby.Messages.unsubscribe(client, _messageListener);
+        if(client.isConnected())
+            Nearby.Messages.unsubscribe(client, _messageListener);
         Log.i(getName(), "Unsubscribe listener.");
         _isSubscribing = false;
     }
