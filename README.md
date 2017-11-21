@@ -12,7 +12,7 @@
 ### Manual installation
 
 #### iOS
-- Add `NSMicrophoneUsageDescription` to the project's Info.plist
+
 
 #### Android
 1. Open up `android/app/src/main/java/[...]/MainActivity.java`
@@ -31,6 +31,16 @@
 
 ## Usage
 See the [example app](https://github.com/badfeatures/react-native-nearby-api/tree/master/example) for more detail and code examples.
+
+- Retrieve your API Keys from the Google Console [iOS](https://developers.google.com/nearby/messages/ios/get-started) | [Android](https://developers.google.com/nearby/messages/android/get-started)
+	- Add the Android API Key in the AndroidManifest
+	```xml
+		<meta-data
+            android:name="com.google.android.nearby.messages.API_KEY"
+            android:value="MY_API_KEY" />
+	```
+	- The iOS API key will be supplied through the `connect()` method.
+- Add `NSMicrophoneUsageDescription` to the iOS project's Info.plist
 
 ```javascript
 import NearbyApi from 'react-native-nearby-api';
@@ -68,14 +78,35 @@ nearbyAPI.onSubscribeFailed(() => {
 // To connect from Google API Client
 nearbyAPI.connect()
 
+// To check if the nearby API is connected.
+nearbyAPI.isConnected((connected, error) => {
+	console.log(connected);
+});
+
 // To disconnect later
 nearbyAPI.disconnect()
 
 // To publish to nearby devices
 nearbyAPI.publish('Hello World!')
 
+// To check if the nearby API is publishing.
+nearbyAPI.isPublishing((publishing, error) => {
+	console.log(publishing);
+});
+
 // To subscribe to nearby devices broadcasting
 nearbyAPI.subscribe();
+
+// To check if the nearby API is subscribing.
+nearbyAPI.isSubscribing((subscribing, error) => {
+	console.log(subscribing);
+});
+
+// To unpublish
+nearbyAPI.unpublish()
+
+// To unsubscribe
+nearbyAPI.unsubscribe();
 ```
   
 ## Running the Example
@@ -83,12 +114,13 @@ nearbyAPI.subscribe();
 
 `yarn`
 
-- To run the example app, the packager must have the `projectRoots` reordered for the example/ directory
+#### Android
+- To run the example app, the packager must have the `projectRoots` reordered for the example/ directory. In another terminal window:
 
 `yarn start --projectRoots <FULL-PATH-TO-REPO>/react-native-nearby-api/example,<FULL-PATH-TO-REPO>/react-native-nearby-api`
 
-#### Android
 `yarn run:android`
+
 `adb reverse tcp:8081 tcp:8081`
 
 #### iOS
@@ -96,6 +128,8 @@ nearbyAPI.subscribe();
 - `bundle exec pod install`
 - Open `example.xcworkspace`
 - Add your IP to `AppDelegate.m`
-```objc
+```objective-c
   jsCodeLocation = [NSURL URLWithString:@"http://<IP-ADDRESS>:8081/index.bundle?platform=ios&dev=true"];
 ```
+- In another terminal window: `yarn start`
+- Run on device
