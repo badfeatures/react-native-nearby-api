@@ -41,12 +41,16 @@ export class NearbyAPI {
     );
   }
 
-  connect = () => {
-    this._nearbyAPI.connect();
+  connect = apiKey => {
+    this._nearbyAPI.connect(apiKey);
   };
 
   disconnect = () => {
     this._nearbyAPI.disconnect();
+  };
+
+  isConnected = cb => {
+    this._nearbyAPI.isConnected(cb);
   };
 
   publish = message => {
@@ -57,8 +61,16 @@ export class NearbyAPI {
     }
   };
 
+  isPublishing = cb => {
+    this._nearbyAPI.isPublishing(cb);
+  };
+
   subscribe = () => {
     this._nearbyAPI.subscribe();
+  };
+
+  isSubscribing = cb => {
+    this._nearbyAPI.isSubscribing(cb);
   };
 
   unpublish = () => {
