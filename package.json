@@ -4,6 +4,7 @@
   "description": "React Native wrapper around Google's Nearby API SDK",
   "main": "index.js",
   "scripts": {
+    "postinstall": "scripts/install.js",
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "run:packager": "./node_modules/react-native/packager/packager.sh",
     "run:ios": "react-native run-ios --project-path ./example/ios",

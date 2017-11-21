@@ -240,20 +240,15 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"${PODS_ROOT}/GoogleInterchangeUtilities/Frameworks/frameworks\"",
-					"\"${PODS_ROOT}/GoogleNetworkingUtilities/Frameworks/frameworks\"",
-					"\"${PODS_ROOT}/GoogleSymbolUtilities/Frameworks/frameworks\"",
-					"\"${PODS_ROOT}/GoogleUtilities/Frameworks/frameworks\"",
-					"$(SRCROOT)/../../../ios/Frameworks/**",
+					"$(PROJECT_DIR)/../../../ios/Pods/**",
+					"$(PROJECT_DIR)/../../../ios/Frameworks/**",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../../../React/**",
 					"$(SRCROOT)/../../react-native/React/**",
-					"$(SRCROOT)/../../../ios/Frameworks/**",
-					"$(SRCROOT)/../../../ios/Pods/**",
-					"$(SRCROOT)/Pods/**",
+					"$(PROJECT_DIR)/../../../ios/Frameworks/**",
+					"$(PROJECT_DIR)/../../../ios/Pods/**",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";
@@ -268,20 +263,15 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"${PODS_ROOT}/GoogleInterchangeUtilities/Frameworks/frameworks\"",
-					"\"${PODS_ROOT}/GoogleNetworkingUtilities/Frameworks/frameworks\"",
-					"\"${PODS_ROOT}/GoogleSymbolUtilities/Frameworks/frameworks\"",
-					"\"${PODS_ROOT}/GoogleUtilities/Frameworks/frameworks\"",
-					"$(SRCROOT)/../../../ios/Frameworks/**",
+					"$(PROJECT_DIR)/../../../ios/Pods/**",
+					"$(PROJECT_DIR)/../../../ios/Frameworks/**",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../../../React/**",
 					"$(SRCROOT)/../../react-native/React/**",
-					"$(SRCROOT)/../../../ios/Frameworks/**",
-					"$(SRCROOT)/../../../ios/Pods/**",
-					"$(SRCROOT)/Pods/**",
+					"$(PROJECT_DIR)/../../../ios/Frameworks/**",
+					"$(PROJECT_DIR)/../../../ios/Pods/**",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";
