@@ -133,3 +133,5 @@ nearbyAPI.unsubscribe();
 ```
 - In another terminal window: `yarn start`
 - Run on device
+
+	NOTE: If you receive a `duplicate symbols for architecture` error through Xcode, this is a [known issue](https://github.com/facebook/react-native/issues/16406). A work around is to run `./renameLogger.sh` after `node_modules` have been installed and you've attempted to run in Xcode.
