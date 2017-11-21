@@ -17,6 +17,7 @@ typedef NS_ENUM(NSInteger, RNNearbyApiEvent) {
 };
 
 static GNSMessageManager *_messageManager = nil;
+static NSString *_apiKey = nil;
 
 @implementation RNNearbyApi
 
@@ -70,54 +71,141 @@ RCT_EXPORT_MODULE()
     [self sendEventWithName:@"subscribe" body:body];
 }
 
+- (id)createMessageManagerWithApiKey:(nonnull NSString*) apiKey {
+    if(apiKey == nil) {
+        @throw [NSException
+                exceptionWithName:@"ApiKeyNotGiven"
+                reason:@"No Api Key was given."
+                userInfo:nil];
+    }
+    _apiKey = apiKey;
+    return [self sharedMessageManager];
+}
+
 - (id)sharedMessageManager {
     @synchronized(self) {
-        if(_messageManager == nil)
-            _messageManager = [[GNSMessageManager alloc] initWithAPIKey:@"AIzaSyA0syu9nNgkHszm7OSWUsU47dowXAkv8LA"];
+        if(_messageManager == nil) {
+            if(_apiKey == nil) {
+                @throw [NSException
+                        exceptionWithName:@"ApiKeyNil"
+                        reason:@"Api Key was nil."
+                        userInfo:nil];
+            }
+            _messageManager = [[GNSMessageManager alloc] initWithAPIKey: _apiKey];
+        }
     }
     return _messageManager;
 }
 
-RCT_EXPORT_METHOD(connect) {
+- (NSNumber *) isConnected {
+    @synchronized(self) {
+        if(_messageManager == nil) {
+            return [NSNumber numberWithBool:0];
+        } else {
+            return [NSNumber numberWithBool:1];
+        }
+    }
+}
+
+RCT_EXPORT_METHOD(isConnected:(RCTResponseSenderBlock) callback)
+{
+    NSNumber *connected = [self isConnected];
+    callback(@[connected, [NSNull null]]);
+}
+
+RCT_EXPORT_METHOD(connect: (nonnull NSString *)apiKey) {
     // iOS Doesn't have a connect: method
-    [self sharedMessageManager];
-    [self sendEvent:CONNECTED withString:@"Successfully connected."];
+    @try {
+        [self createMessageManagerWithApiKey: apiKey];
+        [self sendEvent:CONNECTED withString:@"Successfully connected."];
+    } @catch(NSException *exception) {
+        if(exception.reason != nil) {
+            [self sendEvent:CONNECTION_FAILED withString: exception.reason];
+        } else {
+            [self sendEvent:CONNECTION_FAILED withString: @"Connection failed."];
+        }
+    }
 }
 
 RCT_EXPORT_METHOD(disconnect) {
     // iOS Doesn't have a disconnect: method
-    // Try setting messageManager to nil
-    _messageManager = nil;
+    // Try setting messageManager to nil & save _apiKey
+    @synchronized(self) {
+        _messageManager = nil;
+    }
     [self sendEvent:DISCONNECTED withString:@"Successfully disconnected."];
 }
 
-RCT_EXPORT_METHOD(publish:(nonnull NSString *)messageString) {
-    if(messageString == nil) {
-        [self sendEvent:PUBLISH_FAILED withString:@"Cannot publish an empty message"];
+RCT_EXPORT_METHOD(isPublishing:(RCTResponseSenderBlock) callback)
+{
+    if(publication != nil) {
+        callback(@[@true, [NSNull null]]);
+    } else {
+        callback(@[@false, [NSNull null]]);
     }
-    // Release old publication
-    [self unpublish];
-    // Create new message
-    GNSMessage *message = [GNSMessage messageWithContent: [messageString dataUsingEncoding: NSUTF8StringEncoding]];
-    publication = [[self sharedMessageManager] publicationWithMessage: message];
-    [self sendEvent:PUBLISH_SUCCESS withString:[NSString stringWithFormat:@"Successfully published: %@", messageString]];
+}
+
+RCT_EXPORT_METHOD(publish:(nonnull NSString *)messageString) {
+    @try {
+        if(![self isConnected]) {
+            @throw [NSException
+                    exceptionWithName:@"NotConnected"
+                    reason:@"Messenger not connected. Call connect: before publshing."
+                    userInfo:nil];
+        }
+        if(messageString == nil) {
+            [self sendEvent:PUBLISH_FAILED withString:@"Cannot publish an empty message"];
+            return;
+        }
+        // Release old publication
+        [self unpublish];
+        // Create new message
+        GNSMessage *message = [GNSMessage messageWithContent: [messageString dataUsingEncoding: NSUTF8StringEncoding]];
+        publication = [[self sharedMessageManager] publicationWithMessage: message];
+        [self sendEvent:PUBLISH_SUCCESS withString:[NSString stringWithFormat:@"Successfully published: %@", messageString]];
+    } @catch(NSException *exception) {
+        if(exception.reason != nil) {
+            [self sendEvent:PUBLISH_FAILED withString: exception.reason];
+        }
+    }
 }
 
 RCT_EXPORT_METHOD(unpublish) {
     publication = nil;
 }
 
+RCT_EXPORT_METHOD(isSubscribing:(RCTResponseSenderBlock) callback)
+{
+    if(subscription != nil) {
+        callback(@[@true, [NSNull null]]);
+    } else {
+        callback(@[@false, [NSNull null]]);
+    }
+}
+
 RCT_EXPORT_METHOD(subscribe) {
-    // Release old subscription
-    [self unsubscribe];
-    // Create subscription object
-    __weak RNNearbyApi *welf = self;
-    subscription = [[self sharedMessageManager] subscriptionWithMessageFoundHandler:^(GNSMessage *message) {
-        [welf sendEvent:MESSAGE_FOUND withMessage:message];
-    } messageLostHandler:^(GNSMessage *message) {
-        [welf sendEvent:MESSAGE_LOST withMessage:message];
-    }];
-    [self sendEvent:SUBSCRIBE_SUCCESS withString:@"Successfully Subscribed."];
+    @try {
+        if(![self isConnected]) {
+            @throw [NSException
+                    exceptionWithName:@"NotConnected"
+                    reason:@"Messenger not connected. Call connect: before subscribing."
+                    userInfo:nil];
+        }
+        // Release old subscription
+        [self unsubscribe];
+        // Create subscription object
+        __weak RNNearbyApi *welf = self;
+        subscription = [[self sharedMessageManager] subscriptionWithMessageFoundHandler:^(GNSMessage *message) {
+            [welf sendEvent:MESSAGE_FOUND withMessage:message];
+        } messageLostHandler:^(GNSMessage *message) {
+            [welf sendEvent:MESSAGE_LOST withMessage:message];
+        }];
+        [self sendEvent:SUBSCRIBE_SUCCESS withString:@"Successfully Subscribed."];
+    } @catch(NSException *exception) {
+        if(exception.reason != nil) {
+            [self sendEvent:SUBSCRIBE_FAILED withString: exception.reason];
+        }
+    }
 }
 
 RCT_EXPORT_METHOD(unsubscribe) {

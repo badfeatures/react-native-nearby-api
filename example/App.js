@@ -23,6 +23,8 @@ const instructions = Platform.select({
 
 const nearbyAPI = new NearbyAPI();
 
+const API_KEY = "AIzaSyA0syu9nNgkHszm7OSWUsU47dowXAkv8LA";
+
 export default class App extends Component {
   constructor() {
     super();
@@ -30,8 +32,8 @@ export default class App extends Component {
       isConnected: false,
       nearbyMessage: null,
       connectText: "CONNECT",
-      publishText: "PUBLISH",
-      subscribeText: "SUBSCRIBE"
+      isPublishing: false,
+      isSubscribing: false
     };
   }
 
@@ -39,9 +41,11 @@ export default class App extends Component {
     console.log("Mounting ", NearbyAPI);
     nearbyAPI.onConnected(message => {
       console.log(message);
-      this.setState({
-        isConnected: true,
-        nearbyMessage: `Connected - ${message}`
+      nearbyAPI.isConnected((connected, error) => {
+        this.setState({
+          nearbyMessage: `Connected - ${message}`,
+          isConnected: connected
+        });
       });
     });
     nearbyAPI.onDisconnected(message => {
@@ -69,50 +73,79 @@ export default class App extends Component {
       });
     });
     nearbyAPI.onPublishSuccess(message => {
-      console.log(message);
-      this.setState({
-        nearbyMessage: `Publish Success - ${message}`,
-        publishText: "UNPUBLISH"
+      nearbyAPI.isPublishing((status, error) => {
+        this.setState({
+          nearbyMessage: `Publish Success - ${message}`,
+          isPublishing: status
+        });
       });
     });
     nearbyAPI.onPublishFailed(message => {
       console.log(message);
-      this.setState({ nearbyMessage: `Publish Failed - ${message}` });
+      nearbyAPI.isPublishing((status, error) => {
+        this.setState({
+          nearbyMessage: `Publish Failed - ${message}`,
+          isPublishing: status
+        });
+      });
     });
     nearbyAPI.onSubscribeSuccess(() => {
-      this.setState({
-        nearbyMessage: `Subscribe Success`,
-        subscribeText: "UNSUBSCRIBE"
+      nearbyAPI.isSubscribing((status, error) => {
+        this.setState({
+          nearbyMessage: `Subscribe Success`,
+          isSubscribing: status
+        });
       });
     });
     nearbyAPI.onSubscribeFailed(() => {
-      this.setState({ nearbyMessage: `Subscribe Failed` });
+      nearbyAPI.isSubscribing((status, error) => {
+        this.setState({
+          nearbyMessage: `Subscribe Failed`,
+          isSubscribing: status
+        });
+      });
     });
   }
 
   _connectPress = () => {
     if (this.state.isConnected) {
       nearbyAPI.disconnect();
+      nearbyAPI.isConnected((connected, error) => {
+        this.setState({
+          nearbyMessage: `Disconnected`,
+          isConnected: connected
+        });
+      });
     } else {
-      nearbyAPI.connect();
+      nearbyAPI.connect(API_KEY);
     }
   };
 
   _publishPress = () => {
-    if (this.state.publishText === "PUBLISH") {
+    if (!this.state.isPublishing) {
       nearbyAPI.publish(`Hello World! - ${Math.random()}`);
     } else {
       nearbyAPI.unpublish();
-      this.setState({ publishText: "PUBLISH" });
+      nearbyAPI.isPublishing((status, error) => {
+        this.setState({
+          nearbyMessage: `unpublished`,
+          isPublishing: status
+        });
+      });
     }
   };
 
   _subscribePress = () => {
-    if (this.state.subscribeText === "SUBSCRIBE") {
+    if (!this.state.isSubscribing) {
       nearbyAPI.subscribe();
     } else {
       nearbyAPI.unsubscribe();
-      this.setState({ subscribeText: "SUBSCRIBE" });
+      nearbyAPI.isSubscribing((status, error) => {
+        this.setState({
+          nearbyMessage: `unsubscribed`,
+          isSubscribing: status
+        });
+      });
     }
   };
 
@@ -125,6 +158,12 @@ export default class App extends Component {
         <Text style={styles.instructions}>
           Is Connected: {`${this.state.isConnected}`}
         </Text>
+        <Text style={styles.instructions}>
+          Is Publishing: {`${this.state.isPublishing}`}
+        </Text>
+        <Text style={styles.instructions}>
+          Is Subscribing: {`${this.state.isSubscribing}`}
+        </Text>
         <Text style={styles.instructions}>{this.state.nearbyMessage}</Text>
         <TouchableOpacity onPress={this._connectPress}>
           <Text style={styles.connectButton}>
@@ -133,11 +172,15 @@ export default class App extends Component {
         </TouchableOpacity>
         <View style={{ height: 32 }} />
         <TouchableOpacity onPress={this._publishPress}>
-          <Text style={styles.connectButton}>{this.state.publishText}</Text>
+          <Text style={styles.connectButton}>
+            {this.state.isPublishing ? "UNPUBLISH" : "PUBLISH"}
+          </Text>
         </TouchableOpacity>
         <View style={{ height: 32 }} />
         <TouchableOpacity onPress={this._subscribePress}>
-          <Text style={styles.connectButton}>{this.state.subscribeText}</Text>
+          <Text style={styles.connectButton}>
+            {this.state.isSubscribing ? "UNSUBSCRIBE" : "SUBSCRIBE"}
+          </Text>
         </TouchableOpacity>
       </View>
     );

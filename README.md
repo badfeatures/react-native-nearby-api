@@ -12,7 +12,7 @@
 ### Manual installation
 
 #### iOS
-- Coming Soon!
+- Add `NSMicrophoneUsageDescription` to the project's Info.plist
 
 #### Android
 1. Open up `android/app/src/main/java/[...]/MainActivity.java`
