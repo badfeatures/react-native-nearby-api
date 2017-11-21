@@ -1,0 +1,19 @@
+{
+  "name": "example",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./node_modules/react-native/local-cli/cli.js start"
+  },
+  "peerDependencies": {
+    "react": ">=15.4.0 || ^16.0.0-alpha",
+    "react-native": "^0.41.2"
+  },
+  "devDependencies": {
+    "babel-plugin-module-resolver": "^3.0.0",
+    "escape-string-regexp": "^1.0.5",
+    "metro-bundler": "^0.20.3",
+    "react": "16.0.0-alpha.12",
+    "react-native": "^0.50.1"
+  }
+}

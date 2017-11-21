@@ -78,3 +78,23 @@ nearbyAPI.publish('Hello World!')
 nearbyAPI.subscribe();
 ```
   
+## Running the Example
+- Install the dependencies in the root folder
+
+`yarn`
+
+- To run the example app, the packager must have the `projectRoots` reordered for the example/ directory
+
+`yarn start --projectRoots <FULL-PATH-TO-REPO>/react-native-nearby-api/example,<FULL-PATH-TO-REPO>/react-native-nearby-api`
+
+#### Android
+`yarn run:android`
+
+#### iOS
+- `cd example ios/`
+- `bundle exec pod install`
+- Open `example.xcworkspace`
+- Add your IP to `AppDelegate.m`
+```objc
+  jsCodeLocation = [NSURL URLWithString:@"http://<IP-ADDRESS>:8081/index.bundle?platform=ios&dev=true"];
+```

@@ -24,6 +24,7 @@
 		EA76A1E41FC39242003CCADC /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EA76A1CC1FC3920E003CCADC /* libRCTVibration.a */; };
 		EA76A1E51FC39242003CCADC /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EA76A1D41FC3921D003CCADC /* libRCTWebSocket.a */; };
 		EA76A1E61FC39242003CCADC /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EA76A1731FC391A1003CCADC /* libReact.a */; };
+		EAF425581FC4C18800292434 /* libRNNearbyApi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EAF425571FC4C17800292434 /* libRNNearbyApi.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -272,6 +273,13 @@
 			remoteGlobalIDString = 3DBE0D0D1F3B181C0099AA32;
 			remoteInfo = "fishhook-tvOS";
 		};
+		EAF425561FC4C17800292434 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EAF4252F1FC4C17700292434 /* RNNearbyApi.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNNearbyApi;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -301,6 +309,8 @@
 		95768A43531D041F68FC5F77 /* libPods-example.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-example.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		EA71BB981FC397E4008021B9 /* libPods-example.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libPods-example.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EAF4252F1FC4C17700292434 /* RNNearbyApi.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNNearbyApi.xcodeproj; path = ../../ios/RNNearbyApi.xcodeproj; sourceTree = "<group>"; };
+		EAF4255C1FC4C38B00292434 /* libGNSMessages.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGNSMessages.a; path = Pods/NearbyMessages/Libraries/libGNSMessages.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -308,6 +318,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EAF425581FC4C18800292434 /* libRNNearbyApi.a in Frameworks */,
 				EA76A1E61FC39242003CCADC /* libReact.a in Frameworks */,
 				EA76A1DB1FC39242003CCADC /* libRCTActionSheet.a in Frameworks */,
 				EA76A1DC1FC39242003CCADC /* libRCTAnimation.a in Frameworks */,
@@ -382,6 +393,7 @@
 				832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */,
 				00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */,
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
+				EAF4252F1FC4C17700292434 /* RNNearbyApi.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -412,6 +424,7 @@
 		CFFD4DAD923C23EE1EE64B9B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EAF4255C1FC4C38B00292434 /* libGNSMessages.a */,
 				EA71BB981FC397E4008021B9 /* libPods-example.a */,
 				95768A43531D041F68FC5F77 /* libPods-example.a */,
 			);
@@ -537,6 +550,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		EAF425301FC4C17700292434 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EAF425571FC4C17800292434 /* libRNNearbyApi.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -634,6 +655,10 @@
 				{
 					ProductGroup = EA76A1621FC391A1003CCADC /* Products */;
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+				},
+				{
+					ProductGroup = EAF425301FC4C17700292434 /* Products */;
+					ProjectRef = EAF4252F1FC4C17700292434 /* RNNearbyApi.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -889,6 +914,13 @@
 			remoteRef = EA76A1D91FC3921D003CCADC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		EAF425571FC4C17800292434 /* libRNNearbyApi.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNNearbyApi.a;
+			remoteRef = EAF425561FC4C17800292434 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -1001,7 +1033,10 @@
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = example/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/NearbyMessages/Libraries\"",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-lc++",
@@ -1021,7 +1056,10 @@
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = example/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/NearbyMessages/Libraries\"",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-lc++",

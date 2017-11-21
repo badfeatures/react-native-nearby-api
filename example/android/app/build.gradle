@@ -73,10 +73,21 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [
-    entryFile: "index.js"
+    // the name of the generated asset file containing your JS bundle
+    bundleAssetName  : "index.android.bundle",
+
+    // the entry file for bundle generation
+    entryFile        : "index.js",
+
+    // the root of your project, i.e. where "package.json" lives
+    root             : "../../../",
+
+    // supply additional arguments to the packager
+    extraPackagerArgs: []
 ]
 
-apply from: "../../node_modules/react-native/react.gradle"
+
+apply from: "../../../node_modules/react-native/react.gradle"
 
 /**
  * Set this to true to create two separate APKs instead of one:
@@ -139,7 +150,8 @@ android {
 dependencies {
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"
-    compile "com.facebook.react:react-native:+"  // From node_modules
+    compile "com.facebook.react:react-native:0.50+"  // From node_modules
+    compile project(':react-native-nearby-api-lib')
 }
 
 // Run this once to be able to run the application with BUCK

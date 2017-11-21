@@ -26,6 +26,7 @@ export const SUBSCRIBE_FAILED = "SUBSCRIBE_FAILED";
 
 export class NearbyAPI {
   constructor() {
+    console.log(NativeModules);
     this._nearbyAPI = RNNearbyApi;
     this._eventEmitter =
       Platform.OS === "android"
