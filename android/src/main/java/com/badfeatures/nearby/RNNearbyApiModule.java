@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
@@ -156,8 +157,12 @@ public class RNNearbyApiModule extends ReactContextBaseJavaModule implements Lif
         return options;
     }
 
+    /**
+     *
+     * @param apiKey - Note: API is unused for Android. Must be set in the AndroidManifest.
+     */
     @ReactMethod
-    public void connect() {
+    public void connect(String apiKey) {
         GoogleApiClient client = getGoogleAPIInstance();
         if(client.isConnected() || client.isConnecting()) {
            Log.w(getName(), "Google API Client is already connected or attempting connection.");
@@ -172,6 +177,17 @@ public class RNNearbyApiModule extends ReactContextBaseJavaModule implements Lif
         client.disconnect();
         Log.d(getName(), "Google API Client disconnected.");
         emitEvent(RNNearbyApiEvent.DISCONNECTED, "Google API Client is disconnected.");
+    }
+
+    @ReactMethod
+    public void isConnected(Callback callback) {
+        boolean connected = getGoogleAPIInstance().isConnected();
+        callback.invoke(connected);
+    }
+
+    @ReactMethod
+    public void isPublishing(Callback callback) {
+        callback.invoke(_isPublishing);
     }
 
     @ReactMethod
@@ -214,6 +230,11 @@ public class RNNearbyApiModule extends ReactContextBaseJavaModule implements Lif
             _isPublishing = false;
             Log.i(getName(), "Unpublished message.");
         }
+    }
+
+    @ReactMethod
+    public void isSubscribing(Callback callback) {
+        callback.invoke(_isSubscribing);
     }
 
     @ReactMethod

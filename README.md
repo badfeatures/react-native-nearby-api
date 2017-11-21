@@ -89,6 +89,7 @@ nearbyAPI.subscribe();
 
 #### Android
 `yarn run:android`
+`adb reverse tcp:8081 tcp:8081`
 
 #### iOS
 - `cd example ios/`
