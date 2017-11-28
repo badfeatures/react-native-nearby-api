@@ -21,7 +21,7 @@ const instructions = Platform.select({
     "Shake or press menu button for dev menu"
 });
 
-const nearbyAPI = new NearbyAPI();
+const nearbyAPI = new NearbyAPI(true);
 
 const API_KEY = "AIzaSyA0syu9nNgkHszm7OSWUsU47dowXAkv8LA";
 

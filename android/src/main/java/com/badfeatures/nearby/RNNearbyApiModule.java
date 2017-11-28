@@ -2,6 +2,7 @@
 package com.badfeatures.nearby;
 
 import android.app.PendingIntent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,6 +18,7 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
@@ -32,6 +34,8 @@ import com.google.android.gms.nearby.messages.SubscribeCallback;
 import com.google.android.gms.nearby.messages.SubscribeOptions;
 
 public class RNNearbyApiModule extends ReactContextBaseJavaModule implements LifecycleEventListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+
+    private static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
     private enum RNNearbyApiEvent {
         CONNECTED("CONNECTED"),
@@ -65,6 +69,7 @@ public class RNNearbyApiModule extends ReactContextBaseJavaModule implements Lif
     @Nullable private Message _publishedMessage;
     @NonNull private volatile Boolean _isPublishing = false;
     @NonNull private volatile Boolean _isSubscribing = false;
+    @NonNull private Boolean _isBLEOnly = false;
     @NonNull private MessageListener _messageListener = new MessageListener() {
         @Override
         public void onFound(Message message) {
@@ -142,8 +147,13 @@ public class RNNearbyApiModule extends ReactContextBaseJavaModule implements Lif
         return options;
     }
 
-    private SubscribeOptions createSubscribeOptions(int ttlSeconds) {
-        Strategy pubSubStrategy = new Strategy.Builder().setTtlSeconds(ttlSeconds).build();
+    private SubscribeOptions createSubscribeOptions(int ttlSeconds, boolean bleOnly) {
+        Strategy pubSubStrategy;
+        if(bleOnly) {
+            pubSubStrategy = Strategy.BLE_ONLY;
+        } else {
+            pubSubStrategy = new Strategy.Builder().setTtlSeconds(ttlSeconds).build();
+        }
 
         SubscribeOptions options = new SubscribeOptions.Builder()
                 .setStrategy(pubSubStrategy)
@@ -157,15 +167,42 @@ public class RNNearbyApiModule extends ReactContextBaseJavaModule implements Lif
         return options;
     }
 
+    private boolean isMinimumAndroidVersion() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH;
+    }
+
+    private boolean isGooglePlayServicesAvailable(boolean showErrorDialog) {
+        GoogleApiAvailability googleApi = GoogleApiAvailability.getInstance();
+        int availability = googleApi.isGooglePlayServicesAvailable(getReactApplicationContext());
+        boolean result = availability == ConnectionResult.SUCCESS;
+        if(!result &&
+           showErrorDialog &&
+           googleApi.isUserResolvableError(availability)
+        ) {
+            googleApi.getErrorDialog(getCurrentActivity(), availability, PLAY_SERVICES_RESOLUTION_REQUEST).show();
+        }
+        return result;
+    }
+
     /**
      *
      * @param apiKey - Note: API is unused for Android. Must be set in the AndroidManifest.
      */
     @ReactMethod
-    public void connect(String apiKey) {
+    public void connect(String apiKey, boolean bleOnly) {
+        if(!isMinimumAndroidVersion()) {
+            emitEvent(RNNearbyApiEvent.CONNECTION_FAILED, "Current Android version is too low: " + Integer.toString(Build.VERSION.SDK_INT));
+            return;
+        }
+        if(!isGooglePlayServicesAvailable(true)) {
+            emitEvent(RNNearbyApiEvent.CONNECTION_FAILED, "Google Play Services is not available on this device.");
+            return;
+        }
+        _isBLEOnly = bleOnly;
         GoogleApiClient client = getGoogleAPIInstance();
-        if(client.isConnected() || client.isConnecting()) {
-           Log.w(getName(), "Google API Client is already connected or attempting connection.");
+        if(client.isConnected()) {
+            Log.w(getName(), "Google API Client is already connected.");
+            emitEvent(RNNearbyApiEvent.CONNECTED, "Google API Client is already connected.");
             return;
         }
         client.connect();
@@ -241,7 +278,7 @@ public class RNNearbyApiModule extends ReactContextBaseJavaModule implements Lif
     public void subscribe() {
         GoogleApiClient client = getGoogleAPIInstance();
         if(client.isConnected()) {
-            SubscribeOptions options = createSubscribeOptions(180);
+            SubscribeOptions options = createSubscribeOptions(180, _isBLEOnly);
             Nearby.Messages.subscribe(client, _messageListener, options)
                     .setResultCallback(new ResultCallback<Status>() {
                         @Override
