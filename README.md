@@ -12,6 +12,21 @@
 
 #### iOS
 
+- To utilize the Nearby SDK, `NearbyMessages` need to be linked to the project. Look to the example for Cocoapods usage.
+  ```
+  cd ios/
+  pod init
+  ```
+- Add the following pod to the `Podfile` in the project's target.
+  ```
+  pod 'NearbyMessage'
+  ```
+- Then `pod install` to install dependencies.
+- Open the newly generated `.xcworkspace`.
+- In `node_modules/react-native-nearby-api/ios`, drag and drop `RNNearbyApi.xcodeproj` into your `Libraries` group.
+- In Build Phases > Link Binary with Libraries > Click (+) > Add `libRNNearbyApi.a`.
+- Build and run project on device.
+
 #### Android
 
 1. Open up `android/app/src/main/java/[...]/MainActivity.java`
@@ -90,7 +105,7 @@ nearbyAPI.onSubscribeSuccess(() => {});
 nearbyAPI.onSubscribeFailed(() => {});
 
 // To connect from Google API Client
-nearbyAPI.connect();
+nearbyAPI.connect(API_KEY);
 
 // To check if the nearby API is connected.
 nearbyAPI.isConnected((connected, error) => {
