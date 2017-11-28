@@ -30,7 +30,6 @@ export class NearbyAPI {
    * @param {Boolean} bleOnly Only utilizes bluetooth through the Google Nearby SDK. Defaults to `true`.
    */
   constructor(bleOnly) {
-    console.log(NativeModules);
     this._nearbyAPI = RNNearbyApi;
     this._eventEmitter =
       Platform.OS === "android"
@@ -143,7 +142,6 @@ export class NearbyAPI {
   };
 
   _eventHandler = event => {
-    console.log(event);
     if (this._handlers.hasOwnProperty(event.event)) {
       this._handlers[event.event](
         event.hasOwnProperty("message") ? event.message : null,

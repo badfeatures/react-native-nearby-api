@@ -18,6 +18,7 @@ typedef NS_ENUM(NSInteger, RNNearbyApiEvent) {
 
 static GNSMessageManager *_messageManager = nil;
 static NSString *_apiKey = nil;
+static BOOL _isBLEOnly = false;
 
 @implementation RNNearbyApi
 
@@ -113,9 +114,10 @@ RCT_EXPORT_METHOD(isConnected:(RCTResponseSenderBlock) callback)
     callback(@[connected, [NSNull null]]);
 }
 
-RCT_EXPORT_METHOD(connect: (nonnull NSString *)apiKey) {
+RCT_EXPORT_METHOD(connect: (nonnull NSString *)apiKey isBLEOnly:(BOOL)bleOnly) {
     // iOS Doesn't have a connect: method
     @try {
+        _isBLEOnly = bleOnly;
         [self createMessageManagerWithApiKey: apiKey];
         [self sendEvent:CONNECTED withString:@"Successfully connected."];
     } @catch(NSException *exception) {
@@ -161,7 +163,11 @@ RCT_EXPORT_METHOD(publish:(nonnull NSString *)messageString) {
         [self unpublish];
         // Create new message
         GNSMessage *message = [GNSMessage messageWithContent: [messageString dataUsingEncoding: NSUTF8StringEncoding]];
-        publication = [[self sharedMessageManager] publicationWithMessage: message];
+        publication = [[self sharedMessageManager] publicationWithMessage: message paramsBlock:^(GNSPublicationParams *params) {
+            params.strategy = [GNSStrategy strategyWithParamsBlock:^(GNSStrategyParams *params) {
+                params.discoveryMediums = _isBLEOnly ? kGNSDiscoveryMediumsBLE : kGNSDiscoveryModeDefault;
+            }];
+        }];
         [self sendEvent:PUBLISH_SUCCESS withString:[NSString stringWithFormat:@"Successfully published: %@", messageString]];
     } @catch(NSException *exception) {
         if(exception.reason != nil) {
@@ -199,6 +205,11 @@ RCT_EXPORT_METHOD(subscribe) {
             [welf sendEvent:MESSAGE_FOUND withMessage:message];
         } messageLostHandler:^(GNSMessage *message) {
             [welf sendEvent:MESSAGE_LOST withMessage:message];
+        } paramsBlock:^(GNSSubscriptionParams *params) {
+            params.strategy = [GNSStrategy strategyWithParamsBlock:^(GNSStrategyParams *params) {
+                params.allowInBackground = false; //TODO: Make this configurable
+                params.discoveryMediums = _isBLEOnly ? kGNSDiscoveryMediumsBLE : kGNSDiscoveryModeDefault;
+            }];
         }];
         [self sendEvent:SUBSCRIBE_SUCCESS withString:@"Successfully Subscribed."];
     } @catch(NSException *exception) {

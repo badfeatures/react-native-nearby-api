@@ -53,5 +53,7 @@
 	</dict>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Nearby API Usage</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Nearby API Usage</string>
 </dict>
 </plist>

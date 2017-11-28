@@ -45,7 +45,7 @@ See the
   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
   <uses-permission android:name="android.permission.RECORD_AUDIO" />
   ```
-  
+
 - Add the Android API Key in the AndroidManifest .
 
   ```xml 
@@ -55,7 +55,8 @@ See the
   ```
   
 - The iOS API key will be supplied through the `connect()` method.
-- Add `NSMicrophoneUsageDescription` to the iOS project's Info.plist
+- Add `NSBluetoothPeripheralUsageDescription` to the Info.plist
+- Add `NSMicrophoneUsageDescription` to the iOS project's Info.plist *if using audio*
 
 ```javascript
 import NearbyApi from "react-native-nearby-api";
