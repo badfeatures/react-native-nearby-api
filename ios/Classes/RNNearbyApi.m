@@ -1,6 +1,21 @@
 
 #import "RNNearbyApi.h"
 
+/*
+ * @brief Events broadcasted through the RCTEventEmitter. Handles all stages of connections through the NearbyMessages SDK.
+ * @constant CONNECTED The GNSMessageManager instance has been initialized with an API key.
+ * @constant CONNECTION_SUSPENDED The connection was cancelled by the GNSMessageManager (iOS unused).
+ * @constant CONNECTION_FAILED The connection has failed.
+ * @constant DISCONNECTED The GNSMessageManager has disconnected or deallocated.
+ * @constant MESSAGE_FOUND A GNSMessage has been found through the GNSSubscription.
+ * @constant MESSAGE_LOST A GNSMessage has been lost through the GNSSubscription.
+ * @constant DISTANCE_CHANGED: A GNSMessage distance changed (iOS unused).
+ * @constant BLE_SIGNAL_CHANGED A GNSMessage signal strength changed (iOS unused).
+ * @constant PUBLISH_SUCCESS The GNSPublication has successfully started publishing.
+ * @constant PUBLISH_FAILED The GNSPublication has failed to start publishing.
+ * @constant SUBSCRIBE_SUCCESS The GNSSubscription has successfully started subscribing.
+ * @constant SUBSCRIBE_FAILED The GNSSubscription has failed start subscribing.
+ */
 typedef NS_ENUM(NSInteger, RNNearbyApiEvent) {
     CONNECTED,
     CONNECTION_SUSPENDED,
@@ -16,7 +31,10 @@ typedef NS_ENUM(NSInteger, RNNearbyApiEvent) {
     SUBSCRIBE_FAILED,
 };
 
+/// The main message manager to handle connection, publications, and subscriptions.
 static GNSMessageManager *_messageManager = nil;
+
+/// The Google Play Service API key supplied.
 static NSString *_apiKey = nil;
 
 @implementation RNNearbyApi
@@ -28,8 +46,14 @@ static NSString *_apiKey = nil;
 {
     return dispatch_get_main_queue();
 }
+
 RCT_EXPORT_MODULE()
 
+/**
+ * @brief Converts a valid RNNearbyApiEvent enum to a NSString equivalent.
+ * @param event The RNNearbyApiEvent to convert.
+ * @return NSString conversion of the event type.
+ */
 - (nonnull NSString *)stringForAPIEvent:(RNNearbyApiEvent)event {
     switch(event) {
         case CONNECTED: return @"CONNECTED";
@@ -48,6 +72,7 @@ RCT_EXPORT_MODULE()
     }
 }
 
+/// Events are supplied through the 'subscribe` event through the RCTEventEmitter.
 - (NSArray<NSString *> *)supportedEvents {
     return @[@"subscribe"];
 }
