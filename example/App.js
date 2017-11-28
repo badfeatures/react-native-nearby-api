@@ -23,7 +23,7 @@ const instructions = Platform.select({
 
 const nearbyAPI = new NearbyAPI(true);
 
-const API_KEY = "AIzaSyA0syu9nNgkHszm7OSWUsU47dowXAkv8LA";
+const API_KEY = "AIzaSyDQDwFl4J-v_CdJzZ036vsbZFN7hZCRDpg";
 
 export default class App extends Component {
   constructor() {

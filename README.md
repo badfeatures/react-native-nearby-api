@@ -2,8 +2,7 @@
 
 ## Getting started
 
-`$ yarn react-native-nearby-api` or `$ npm install react-native-nearby-api
---save`
+`$ yarn react-native-nearby-api` or `$ npm install react-native-nearby-api --save`
 
 ### Mostly automatic installation
 
@@ -17,36 +16,46 @@
 
 1. Open up `android/app/src/main/java/[...]/MainActivity.java`
 
-* Add `import com.badfeatures.nearby.RNNearbyApiPackage;` to the imports at the
-  top of the file
-* Add `new RNNearbyApiPackage()` to the list returned by the `getPackages()`
-  method
+- Add `import com.badfeatures.nearby.RNNearbyApiPackage;` to the imports at the top of the file
+- Add `new RNNearbyApiPackage()` to the list returned by the `getPackages()` method
 
 2. Append the following lines to `android/settings.gradle`:
-   ```
+   ```gradle
    include ':react-native-nearby-api'
    project(':react-native-nearby-api').projectDir = new File(rootProject.projectDir, 	'../node_modules/react-native-nearby-api/android')
    ```
-3. Insert the following lines inside the dependencies block in
-   `android/app/build.gradle`:
-   ```
+3. Insert the following lines inside the dependencies block in `android/app/build.gradle`:
+   ```gradle
      compile project(':react-native-nearby-api')
    ```
 
 ## Usage
 
 See the
-[example app](https://github.com/badfeatures/react-native-nearby-api/tree/master/example)
-for more detail and code examples.
+[example app](https://github.com/badfeatures/react-native-nearby-api/tree/master/example) for more detail and code examples.
 
-* Retrieve your API Keys from the Google Console
-  [iOS](https://developers.google.com/nearby/messages/ios/get-started) |
-  [Android](https://developers.google.com/nearby/messages/android/get-started) -
-  Add the Android API Key in the AndroidManifest `xml <meta-data
-  android:name="com.google.android.nearby.messages.API_KEY"
-  android:value="MY_API_KEY" />` - The iOS API key will be supplied through the
-  `connect()` method.
-* Add `NSMicrophoneUsageDescription` to the iOS project's Info.plist
+- Retrieve your API Keys from the Google Console [iOS](https://developers.google.com/nearby/messages/ios/get-started) | [Android](https://developers.google.com/nearby/messages/android/get-started) 
+- Add the correct permissions to the AndroidManifest.
+
+  ```xml
+  <!-- Include if wish to use BLE -->
+  <uses-permission android:name="android.permission.BLUETOOTH"/>
+  <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+  <!-- Include if wish to use audio -->
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+  <uses-permission android:name="android.permission.RECORD_AUDIO" />
+  ```
+  
+- Add the Android API Key in the AndroidManifest .
+
+  ```xml 
+  <meta-data
+    android:name="com.google.android.nearby.messages.API_KEY"
+    android:value="MY_API_KEY" />
+  ```
+  
+- The iOS API key will be supplied through the `connect()` method.
+- Add `NSMicrophoneUsageDescription` to the iOS project's Info.plist
 
 ```javascript
 import NearbyApi from "react-native-nearby-api";
@@ -124,8 +133,7 @@ nearbyAPI.unsubscribe();
 * To run the example app, the packager must have the `projectRoots` reordered
   for the example/ directory. In another terminal window:
 
-`yarn start --projectRoots
-<FULL-PATH-TO-REPO>/react-native-nearby-api/example,<FULL-PATH-TO-REPO>/react-native-nearby-api`
+`yarn start --projectRoots <FULL-PATH-TO-REPO>/react-native-nearby-api/example,<FULL-PATH-TO-REPO>/react-native-nearby-api`
 
 `yarn run:android`
 
@@ -133,16 +141,15 @@ nearbyAPI.unsubscribe();
 
 #### iOS
 
-* `cd example ios/`
-* `bundle exec pod install`
-* Open `example.xcworkspace`
-* Add your IP to `AppDelegate.m`
+- `cd example ios/`
+- `bundle exec pod install`
+- Open `example.xcworkspace`
+- Add your IP to `AppDelegate.m`
 
 ```objective-c
   jsCodeLocation = [NSURL URLWithString:@"http://<IP-ADDRESS>:8081/index.bundle?platform=ios&dev=true"];
 ```
 
-* In another terminal window: `yarn start`
-* Run on device
-
-      	NOTE: If you receive a `duplicate symbols for architecture` error through Xcode, this is a [known issue](https://github.com/facebook/react-native/issues/16406). A work around is to run `./renameLogger.sh` after `node_modules` have been installed and you've attempted to run in Xcode.
+- In another terminal window: `yarn start`
+- Run on device
+  NOTE: If you receive a `duplicate symbols for architecture` error through Xcode, this is a [known issue](https://github.com/facebook/react-native/issues/16406). A work around is to run `./renameLogger.sh` after `node_modules` have been installed and you've attempted to run in Xcode.
