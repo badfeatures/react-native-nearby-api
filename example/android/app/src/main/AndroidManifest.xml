@@ -28,7 +28,7 @@
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
       <meta-data
             android:name="com.google.android.nearby.messages.API_KEY"
-            android:value="AIzaSyB9e_DjcSq4kC_8e7CU04IEtzNiYgKee_4" />
+            android:value="AIzaSyDQDwFl4J-v_CdJzZ036vsbZFN7hZCRDpg" />
     </application>
 
 </manifest>
