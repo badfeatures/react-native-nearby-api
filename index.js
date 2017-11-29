@@ -38,9 +38,7 @@ export class NearbyAPI {
     this._handlers = {};
     this._deviceEventSubscription = this._eventEmitter.addListener(
       "subscribe",
-      Platform.OS === "android"
-        ? this._eventHandler.bind(this)
-        : this._eventHandler.bind(this)
+      this._eventHandler.bind(this)
     );
     this._isBLEOnly = !!bleOnly;
   }
