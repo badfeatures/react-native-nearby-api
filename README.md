@@ -144,6 +144,13 @@ nearbyAPI.unsubscribe();
 
   `yarn`
 
+#### Generate an API Key from the [Google Developer Console](https://console.developers.google.com/flows/enableapi?apiid=copresence&keyType=CLIENT_SIDE_ANDROID&reusekey=true)
+1. Go to the Google Developers Console.
+2. Create or select a project to register your application with.
+3. Click Continue to Enable the API.
+4. On the Credentials page, create a new API Key. (No key restrictions are needed for this example)
+5. Copy/Paste your key in [example/index.js](https://github.com/badfeatures/react-native-nearby-api/blob/develop/example/App.js#L26) and in the example [AndroidManifest.xml](https://github.com/badfeatures/react-native-nearby-api/blob/develop/example/android/app/src/main/AndroidManifest.xml#L31)
+
 #### Android
 
 - To run the example app, the packager must have the `projectRoots` reordered

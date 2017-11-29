@@ -33,7 +33,7 @@
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
       <meta-data
             android:name="com.google.android.nearby.messages.API_KEY"
-            android:value="AIzaSyDQDwFl4J-v_CdJzZ036vsbZFN7hZCRDpg" />
+            android:value="MY_API_KEY" />
     </application>
 
 </manifest>
