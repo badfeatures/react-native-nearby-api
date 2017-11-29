@@ -9,7 +9,7 @@ import {
 const { RNNearbyApi } = NativeModules;
 
 /**
- * Event Constants 
+ * Event Constants
  */
 export const CONNECTED = "CONNECTED";
 export const CONNECTION_SUSPENDED = "CONNECTION_SUSPENDED";
@@ -25,8 +25,11 @@ export const SUBSCRIBE_SUCCESS = "SUBSCRIBE_SUCCESS";
 export const SUBSCRIBE_FAILED = "SUBSCRIBE_FAILED";
 
 export class NearbyAPI {
-  constructor() {
-    console.log(NativeModules);
+  /**
+   * Initializer for the RNNearbyApi wrapper.
+   * @param {Boolean} bleOnly Only utilizes bluetooth through the Google Nearby SDK. Defaults to `true`.
+   */
+  constructor(bleOnly) {
     this._nearbyAPI = RNNearbyApi;
     this._eventEmitter =
       Platform.OS === "android"
@@ -35,14 +38,13 @@ export class NearbyAPI {
     this._handlers = {};
     this._deviceEventSubscription = this._eventEmitter.addListener(
       "subscribe",
-      Platform.OS === "android"
-        ? this._eventHandler.bind(this)
-        : this._eventHandler.bind(this)
+      this._eventHandler.bind(this)
     );
+    this._isBLEOnly = !!bleOnly;
   }
 
   connect = apiKey => {
-    this._nearbyAPI.connect(apiKey);
+    this._nearbyAPI.connect(apiKey, this._isBLEOnly);
   };
 
   disconnect = () => {
@@ -82,8 +84,8 @@ export class NearbyAPI {
   };
 
   /**
-     * Handler Helper Functions.
-     */
+   * Handler Helper Functions.
+   */
 
   onConnected = handler => {
     this._setHandler(CONNECTED, handler);
@@ -138,7 +140,6 @@ export class NearbyAPI {
   };
 
   _eventHandler = event => {
-    console.log(event);
     if (this._handlers.hasOwnProperty(event.event)) {
       this._handlers[event.event](
         event.hasOwnProperty("message") ? event.message : null,
