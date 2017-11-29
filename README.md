@@ -140,13 +140,13 @@ nearbyAPI.unsubscribe();
 
 ## Running the Example
 
-* Install the dependencies in the root folder
+- Install the dependencies in the root folder
 
-`yarn`
+  `yarn`
 
 #### Android
 
-* To run the example app, the packager must have the `projectRoots` reordered
+- To run the example app, the packager must have the `projectRoots` reordered
   for the example/ directory. In another terminal window:
 
 `yarn start --projectRoots <FULL-PATH-TO-REPO>/react-native-nearby-api/example,<FULL-PATH-TO-REPO>/react-native-nearby-api`
@@ -168,4 +168,5 @@ nearbyAPI.unsubscribe();
 
 - In another terminal window: `yarn start`
 - Run on device
+  
   NOTE: If you receive a `duplicate symbols for architecture` error through Xcode, this is a [known issue](https://github.com/facebook/react-native/issues/16406). A work around is to run `./renameLogger.sh` after `node_modules` have been installed and you've attempted to run in Xcode.
