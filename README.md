@@ -1,8 +1,8 @@
-# react-native-nearby-api
+# react-native-nearby-api [![npm version](https://badge.fury.io/js/react-native-nearby-api.svg)](https://badge.fury.io/js/react-native-nearby-api)
 
 ## Getting started
 
-`$ yarn react-native-nearby-api` or `$ npm install react-native-nearby-api --save`
+`$ yarn add react-native-nearby-api` or `$ npm install react-native-nearby-api --save`
 
 ### Mostly automatic installation
 
