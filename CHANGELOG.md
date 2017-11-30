@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.0.5 (November 30, 2017)
+- Removed from npm organization
+- Documentation updates
+
 ## 0.0.4 (November 29, 2017)
 - iOS | Android: [#10](https://github.com/badfeatures/react-native-nearby-api/pull/10)  Configuration enhancements for BLE only use.
 - Android: Adds Google Play and Android version check

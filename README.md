@@ -91,10 +91,16 @@ nearbyAPI.onLost(message => {
   console.log("Message Lost!");
   console.log(message);
 });
+// Android Only
 nearbyAPI.onDistanceChanged((message, value) => {
   console.log("Distance Changed!");
   console.log(message, value);
 });
+// Android Only
+nearbyAPI.onBLESignalChanged((message, value) => {
+  console.log("BLE Signal Changed!");
+  console.log(message, value);
+})
 nearbyAPI.onPublishSuccess(message => {
   console.log(message);
 });
