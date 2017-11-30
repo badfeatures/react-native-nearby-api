@@ -1,5 +1,5 @@
 {
-  "name": "@badfeatures/react-native-nearby-api",
+  "name": "react-native-nearby-api",
   "version": "0.0.4",
   "description": "React Native wrapper around Google's Nearby API SDK",
   "main": "index.js",
