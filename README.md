@@ -19,7 +19,7 @@
   ```
 - Add the following pod to the `Podfile` in the project's target.
   ```
-  pod 'NearbyMessage'
+  pod 'NearbyMessages'
   ```
 - Then `pod install` to install dependencies.
 - Open the newly generated `.xcworkspace`.
