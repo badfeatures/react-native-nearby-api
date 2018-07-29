@@ -7,7 +7,7 @@
     "preversion": "",
     "version": "git add CHANGELOG.md",
     "postversion": "git push && git push --tags",
-    "postinstall": "scripts/install.js",
+    "postinstall": "node ./scripts/install.js",
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "run:packager": "./node_modules/react-native/packager/packager.sh",
     "run:ios": "react-native run-ios --project-path ./example/ios",
